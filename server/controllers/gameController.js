@@ -8,7 +8,6 @@ const gameController = {
       const { datetime } = req.body;
       const { location } = req.body;
       const { maxplayers } = req.body;
-
       if (name == undefined || type == undefined || datetime == undefined || location == undefined || maxplayers == undefined) {
         return next({
           log: 'gameController: ERROR: Missing required fields',
@@ -47,9 +46,27 @@ const gameController = {
       });
     } catch (err) {
       return next({
-        log: `gameeController.addGame: ERROR ${err}`,
+        log: `gameController.addGame: ERROR ${err}`,
         message: {
-          err: 'gameeController.addGame: ERROR: Game not created',
+          err: 'gameController.addGame: ERROR: Game not created',
+        },
+      });
+    }
+  },
+
+  getGames(req, res, next) {
+    try {
+      const queryString = `SELECT * FROM games`;
+
+      db.query(queryString).then((results) => {
+        res.locals.games = results.rows;
+        return next();
+      });
+    } catch (err) {
+      return next({
+        log: `gameController.getGames: ERROR ${err}`,
+        message: {
+          err: 'gameController.getGames: ERROR: Could not get games.',
         },
       });
     }
