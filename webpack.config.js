@@ -2,18 +2,20 @@ const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
     filename: 'bundle.js',
   },
-  resolve: {
-    modules: [path.join(__dirname, 'src'), 'node_modules'],
-    alias: {
-      react: path.join(__dirname, 'node_modules', 'react'),
-    },
-  },
+  mode: 'development',
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        enforce: 'pre',
+        use: ['source-map-loader'],
+      },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
@@ -23,14 +25,40 @@ module.exports = {
         },
       },
       {
-        test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        test: /\.css$/i, //.(css|scss)$/,
+        include: path.resolve(__dirname, 'src'),
+        exclude: /node_modules/,
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-url-loader',
+            options: {
+              limit: 10000,
+            },
+          },
+        ],
       },
     ],
   },
+  devServer: {
+    static: {
+      publicPath: '/',
+      directory: path.resolve(__dirname, 'dist'),
+    },
+    proxy: {
+      '/**': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      },
+    }
+  },
   plugins: [
     new HtmlWebPackPlugin({
-      template: './src/index.html',
+      title: 'Development',
+      template: path.resolve(__dirname, 'index.html'),
     }),
   ],
 };
