@@ -53,7 +53,7 @@ module.exports = {
         target: 'http://localhost:3000/',
         secure: false,
       },
-    }
+    },
   },
   plugins: [
     new HtmlWebPackPlugin({
