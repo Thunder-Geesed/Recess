@@ -12,8 +12,8 @@ const CreateUser = (props) => {
 
 
   return (
-    <div className="container flex justify-center space-y-4">
-      <form>
+    <div className="container h-screen">
+      <form className="">
         <label className="block">
           <span className="block text-sm font-medium text-slate-700">
             Email
