@@ -4,7 +4,7 @@ const path = require('path');
 const gameController = require('../controllers/gameController.js');
 const gameRouter = require('./gameRouter');
 
-router.get('/gameplayers', gameController.findUsersInGame, (req, res) => {
+router.get('/gameplayers/:gameId', gameController.findUsersInGame, (req, res) => {
   return res.status(200).json(res.locals.usersAddedToGame);
 });
 
@@ -13,11 +13,11 @@ router.get('/games', gameController.getGames, (req, res) => {
 });
 
 router.post('/joingame', gameController.addUserToGame, (req, res) => {
-  return res.sendStatus(200);
+  return res.status(200).json(res.locals.added);
 });
 
 router.delete('/leavegame', gameController.leaveGame, (req, res) => {
-  return res.sendStatus(204);
+  return res.status(200).json(res.locals.deleted);
 });
 
 router.use('/creategame', gameRouter);
