@@ -3,18 +3,26 @@ import { Routes, Route, Navigate, useLocation, Outlet, Link } from 'react-router
 import CreateUser from './CreateUser.jsx';
 import Home from './Home.jsx';
 import Login from './Login.jsx'
+import CreateGame from './CreateGame.jsx'
+import Settings from './Settings.jsx'
 
 const App = (props) => {
+  const [selectedSport, changeSport] = useState(null);
+  const [username, setUsername] = useState(null);
+
+
   return (
-      <Routes>
-        <Route path='/'>
-          <Route index element={<Login />}></Route>
-          <Route path='createuser' element={<CreateUser/>}></Route>
-          <Route path='home' element={<Layout />}>
-            <Route index element={<Home />}></Route>
-          </Route>
-        </Route>
-      </Routes>
+    <Routes>
+      <Route path="/">
+        <Route index element={<Login username={props.username} setUsername={props.setUsername}  />}></Route>
+        <Route path="createuser" element={<CreateUser username={props.username} setUsername={props.setUsername} />}></Route>
+      </Route>
+      <Route path="/home" element={<Layout />}>
+        <Route index element={<Home username={username} selectedSport={selectedSport} changeSport={changeSport} />}></Route>
+        <Route path="creategame" element={<CreateGame selectedSport={selectedSport} />}></Route>
+        <Route path="settings" element={<Settings />}></Route>
+      </Route>
+    </Routes>
   );
 }
 
@@ -23,21 +31,19 @@ function Layout() {
     <div>
       {/* A "layout route" is a good place to put markup you want to
           share across all the pages on your site, like navigation. */}
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-          <li>
-            <Link to="/nothing-here">Nothing Here</Link>
-          </li>
-        </ul>
+      <Outlet />
+      <nav className="flex fixed bottom-0 w-full justify-between py-4 bg-blue-400">
+        <Link to="./creategame" className="w-1/3 text-center">
+          Create Game
+        </Link>
+
+        <Link to="./" className="w-1/3 text-center">
+          Home
+        </Link>
+
+        <Link to="./settings" className="w-1/3 text-center">
+          Settings
+        </Link>
       </nav>
 
       <hr />
@@ -45,7 +51,6 @@ function Layout() {
       {/* An <Outlet> renders whatever child route is currently active,
           so you can think about this <Outlet> as a placeholder for
           the child routes we defined above. */}
-      <Outlet />
     </div>
   );
 }

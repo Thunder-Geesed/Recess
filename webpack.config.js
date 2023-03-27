@@ -17,6 +17,11 @@ module.exports = {
         use: ['source-map-loader'],
       },
       {
+        test: /\.(png|jpg|jpeg|gif)$/i,
+        exclude: /node_modules/,
+        type: 'asset/resource',
+      },
+      {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
