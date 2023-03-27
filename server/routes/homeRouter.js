@@ -4,7 +4,7 @@ const path = require('path');
 const gameController = require('../controllers/gameController.js');
 const gameRouter = require('./gameRouter');
 
-router.get('/gameplayers/', gameController.findUsersInGame, (req, res) => {
+router.get('/gameplayers', gameController.findUsersInGame, (req, res) => {
   return res.status(200).json(res.locals.usersAddedToGame);
 });
 

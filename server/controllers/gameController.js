@@ -62,9 +62,9 @@ const gameController = {
 
   getGames(req, res, next) {
     try {
-      const queryString = `SELECT games.name, games.type, games.datetime ,games."location" ,games.maxplayers ,count(users_games.user_id) AS "currentplayers" FROM games
+      const queryString = `SELECT games.game_id, games.name, games.type, games.datetime ,games."location" ,games.maxplayers ,count(users_games.user_id) AS "currentplayers" FROM games
 LEFT JOIN users_games ON games.game_id = users_games.game_id 
-GROUP BY games.name,games.type,games.datetime ,games."location" ,games.maxplayers`;
+GROUP BY games.game_id, games.name, games.type,games.datetime ,games."location" ,games.maxplayers`;
 
       db.query(queryString).then((results) => {
         const gamesObj = {};
