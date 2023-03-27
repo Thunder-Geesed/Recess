@@ -2,41 +2,35 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const PORT = 3000;
+
 const userController = require('./controllers/userController.js');
 const cookieController = require('./controllers/cookieController.js');
-const gameController = require('./controllers/gameController.js');
+// const gameController = require('./controllers/gameController.js');
+
+const gameRouter = require('./routes/gameRouter.js');
+const userRouter = require('./routes/userRouter.js');
+const homeRouter = require('./routes/homeRouter.js');
 
 const cookieParser = require('cookie-parser');
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded());
 app.use(cookieParser());
 
-app.use(express.static(path.resolve(__dirname, '../dist')));
+app.use('/home', cookieController.checkCookie, homeRouter);
 
-app.get('/games', (req, res) => {
-  return res.sendStatus(200);
-});
+app.use('/createuser', userRouter);
 
-app.get('/gameplayers/', (req, res) => {
-  return res.sendStatus(200);
-});
+app.use('/game', gameRouter);
 
-app.post('/login', cookieController.createCookie, (req, res) => {
-  return res.sendStatus(200);
-});
-
-app.post('/createuser', userController.addUser, (req, res) => {
-  return res.sendStatus(200);
-});
-
-app.post('/creategame', gameController.addGame, gameController.addUserToGame, (req, res) => {
-  return res.sendStatus(200);
-});
-
-app.post('/joingame', gameController.addUserToGame, (req, res) => {
-  return res.sendStatus(200);
-});
+app.post(
+  '/login',
+  userController.verifyUser,
+  cookieController.createCookie,
+  (req, res) => {
+    return res.sendStatus(200);
+  }
+);
 
 app.use((req, res) => res.status(404).send('Page not found.'));
 
