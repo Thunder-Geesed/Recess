@@ -122,6 +122,7 @@ const CreateGame = (props) => {
         </label>
 
         {/*EXPERIMENTAL*/}
+        {/*}
         <div className="flex items-center justify-center">
           <div
             className="relative mb-3 xl:w-96"
@@ -143,6 +144,7 @@ const CreateGame = (props) => {
             </label>
           </div>
         </div>
+          */}
 
         <label className="block">
           <span className="block text-sm font-medium text-slate-700">

@@ -7,7 +7,7 @@ import CreateGame from './CreateGame.jsx'
 import Settings from './Settings.jsx'
 
 const App = (props) => {
-  const [selectedSport, changeSport] = useState(null);
+  const [selectedSport, changeSport] = useState('baseball');
   const [username, setUsername] = useState(null);
   const location = useLocation();
   console.log(location)

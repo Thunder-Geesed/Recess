@@ -12,6 +12,7 @@ const DisplayGames = (props) => {
     .then((data) => {
       const arr = [];
       setJoined(data.includes(username))
+      if (data) {
       data.forEach(el => {
         arr.push(
         <li>
@@ -19,6 +20,7 @@ const DisplayGames = (props) => {
         </li>
         )
       })
+    }
       return setPlayerList(arr);
     })
     .catch((error) => {

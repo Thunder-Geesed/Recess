@@ -19,7 +19,24 @@ const Home = (props) => {
   }
 
   useEffect(() => {
-    
+    async function getData() {
+      await fetch('/home/games')
+      .then((response) => response.json())
+      .then((data) => {
+        if (data) {
+        setGames({
+          baseball: data.baseball,
+          football: data.football,
+          basketball: data.basketball,
+          soccer: data.soccer
+        })
+      }
+      })
+      .catch((error) => {
+        console.log('retrieved games')
+      })
+    }
+    getData();
   }, [])
   
 

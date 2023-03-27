@@ -5,15 +5,20 @@ const CreateUser = (props) => {
   const navigate = useNavigate();
 
   const { changeUsername } = props;
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [location, setLocation] = useState('');
+  const [username, setUsername] = useState(
+    (Math.floor(Math.random() * 4) > 2 ? 'soccer' : 'basketball') +
+      'fan' +
+      Math.floor(Math.random() * 1000)
+  );
+  const [email, setEmail] = useState(
+    'noreply' + Math.floor(Math.random() * 10000) + '@noreply.abc'
+  );
+  const [password, setPassword] = useState('password123');
+  const [location, setLocation] = useState('New York');
 
   function showPosition(position) {
     console.log(position);
-    document.getElementById('location').value =
-      position.coords.latitude + ',' + position.coords.longitude;
+    setLocation(position.coords.latitude + ',' + position.coords.longitude);
     return (
       'Latitude: ' +
       position.coords.latitude +
@@ -24,16 +29,18 @@ const CreateUser = (props) => {
 
   const handleClick = async (user) => {
     if (!user.location) user.location = 'temp fixme';
+    console.log('Handling click');
+
     // POST request using fetch()
-    awaitfetch('/createuser', {
+    await fetch('/createuser', {
       // Adding method type
       method: 'POST',
       // Adding body or contents to send
       body: JSON.stringify({
-        username: { username },
-        password: { password },
-        email: { email },
-        location: { location },
+        username: username,
+        password: password,
+        email: email,
+        location: location,
       }),
 
       // Adding headers to the request
@@ -45,11 +52,13 @@ const CreateUser = (props) => {
       .then((user) => {
         console.log('Got results', user);
         changeUsername(username);
-        return navigate('/home');
       })
       .catch((error) => {
         console.log('error');
       });
+
+      //move this back to make it actually work
+    return navigate('/home');
   };
 
   return (
@@ -64,6 +73,9 @@ const CreateUser = (props) => {
             defaultValue="youraddress@domain.com"
             id="email"
             value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
             className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
             focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
             disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
@@ -84,6 +96,9 @@ const CreateUser = (props) => {
             }
             id="username"
             value={username}
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
             className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
             focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
             disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
@@ -100,6 +115,9 @@ const CreateUser = (props) => {
             defaultValue="password123"
             id="password"
             value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
             className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
             focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
             disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
