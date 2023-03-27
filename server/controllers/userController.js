@@ -11,10 +11,10 @@ const userController = {
 
       if (username == undefined || email == undefined || password == undefined || location == undefined) {
         return next({
-          log: 'teammateController: ERROR: Missing required fields',
+          log: 'userController: ERROR: Missing required fields',
           status: '400',
           message: {
-            err: 'Error occured in teammateController.addUser Missing required fields',
+            err: 'Error occured in userController.addUser Missing required fields',
           },
         });
       }
@@ -32,9 +32,9 @@ const userController = {
       });
     } catch (err) {
       return next({
-        log: `teammateController.addUser: ERROR ${err}`,
+        log: `userController.addUser: ERROR ${err}`,
         message: {
-          err: 'teammateController.addUser: ERROR: User not created',
+          err: 'userController.addUser: ERROR: User not created',
         },
       });
     }
@@ -43,11 +43,11 @@ const userController = {
   verifyUser(req, res, next) {
     const { username } = req.body;
     let { password } = req.body;
-    if (!username || !password) {
+    if (username === undefined || password === undefined) {
       return next({
-        log: `teammateController.verifyUser: ERROR ${err}`,
+        log: `userController.verifyUser: ERROR ${err}`,
         message: {
-          err: 'teammateController.verifyUser: ERROR: missing username or password.',
+          err: 'userController.verifyUser: ERROR: missing username or password.',
         },
       });
     }
@@ -56,28 +56,30 @@ const userController = {
     SELECT user_id, password FROM users WHERE username = '${username}';
     `;
     db.query(queryString).then((result) => {
-      res.locals.userId = result.rows[0].user_id;
-      bcrypt.compare(password, result.rows[0].password).then((result) => {
-        if (!result) {
-          res.redirect('/signup');
-        } else {
-          next();
-        }
-      });
+      if (result.rows.length !== 0) {
+        res.locals.userId = result.rows[0].user_id;
+        bcrypt.compare(password, result.rows[0].password).then((result) => {
+          if (!result) {
+            return next({
+              log: `userController.verifyUser: ERROR`,
+              message: {
+                err: 'userController.verifyUser: ERROR: Incorrect Name or Password',
+              },
+            });
+          } else {
+            next();
+          }
+        });
+      } else {
+        return next({
+          log: `userController.verifyUser: ERROR`,
+          message: {
+            err: 'userController.verifyUser: ERROR: Incorrect Name or Password',
+          },
+        });
+      }
     });
   },
 };
 
 module.exports = userController;
-
-// if (!deleted) {
-//   return next({
-//     log: 'StudentController.deleteStudent: ERROR: Student not found',
-//     status: '400',
-//     message: {
-//       err: 'Error occured in StudentController.deleteStudent. Student not found.',
-//     },
-//   });
-// }
-
-// "INSERT INTO users (username, password, email, location) VALUES ('weston', '1234', 'abc@gmail.com', 'portalnd')";

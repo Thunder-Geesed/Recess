@@ -52,9 +52,9 @@ const gameController = {
       });
     } catch (err) {
       return next({
-        log: `gameController.addGame: ERROR ${err}`,
+        log: `gameController.addUserToGame: ERROR ${err}`,
         message: {
-          err: 'gameController.addGame: ERROR: Game not created',
+          err: 'gameController.addUserToGame: ERROR: could not add user to game',
         },
       });
     }
@@ -62,7 +62,10 @@ const gameController = {
 
   getGames(req, res, next) {
     try {
-      const queryString = `SELECT * FROM games`;
+      // const queryString = `SELECT * FROM games`;
+      const queryString = `SELECT games.name, games.type, games.datetime ,games."location" ,games.maxplayers ,count(users_games.user_id) AS "currentplayers" FROM games
+LEFT JOIN users_games ON games.game_id = users_games.game_id 
+GROUP BY games.name,games.type,games.datetime ,games."location" ,games.maxplayers`;
 
       db.query(queryString).then((results) => {
         const gamesObj = {};
@@ -110,20 +113,25 @@ const gameController = {
       });
     }
   },
+
+  leaveGame(req, res, next) {
+    try {
+      const { userId } = req.cookies;
+      const { gameId } = req.body;
+
+      const queryString = `DELETE FROM users_games WHERE user_id = '${userId}' AND game_id = '${gameId}'`;
+      db.query(queryString).then((data) => {
+        return next();
+      });
+    } catch (err) {
+      return next({
+        log: `gameController.leaveGame: ERROR ${err}`,
+        message: {
+          err: 'gameController.leaveGame: ERROR: Game not created',
+        },
+      });
+    }
+  },
 };
 
-// SELECT username FROM users INNER JOIN users_games ON users.user_id = users_games.user_id WHERE game_id = '1';
-
 module.exports = gameController;
-
-// if (!deleted) {
-//   return next({
-//     log: 'StudentController.deleteStudent: ERROR: Student not found',
-//     status: '400',
-//     message: {
-//       err: 'Error occured in StudentController.deleteStudent. Student not found.',
-//     },
-//   });
-// }
-
-// "INSERT INTO users (username, password, email, location) VALUES ('weston', '1234', 'abc@gmail.com', 'portalnd')";

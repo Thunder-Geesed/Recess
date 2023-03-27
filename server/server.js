@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const path = require('path');
+// const path = require('path');
 const PORT = 3000;
 
 const userController = require('./controllers/userController.js');
@@ -23,14 +23,9 @@ app.use('/createuser', userRouter);
 
 app.use('/game', gameRouter);
 
-app.post(
-  '/login',
-  userController.verifyUser,
-  cookieController.createCookie,
-  (req, res) => {
-    return res.sendStatus(200);
-  }
-);
+app.post('/login', userController.verifyUser, cookieController.createCookie, (req, res) => {
+  return res.sendStatus(200);
+});
 
 app.use((req, res) => res.status(404).send('Page not found.'));
 

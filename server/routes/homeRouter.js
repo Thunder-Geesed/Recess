@@ -16,6 +16,10 @@ router.post('/joingame', gameController.addUserToGame, (req, res) => {
   return res.sendStatus(200);
 });
 
+router.delete('/leavegame', gameController.leaveGame, (req, res) => {
+  return res.sendStatus(204);
+});
+
 router.use('/creategame', gameRouter);
 
 router.use(express.static(path.resolve(__dirname, '../../dist')));

@@ -21,17 +21,6 @@ cookieController.checkCookie = (req, res, next) => {
   } else {
     return next();
   }
-
-  //   else {
-  //     return next({
-  //       log: 'cookieController.createCookie: ERROR: userId not found',
-  //       status: '400',
-  //       message: {
-  //         err: 'Error occured in cookieController.createCookie. userId not found.',
-  //       },
-  //     });
-  //   //   }
-  //   return next();
 };
 
 module.exports = cookieController;
