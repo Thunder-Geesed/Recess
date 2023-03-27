@@ -7,15 +7,19 @@ import CreateGame from './CreateGame.jsx'
 import Settings from './Settings.jsx'
 
 const App = (props) => {
+  const [selectedSport, changeSport] = useState(null);
+  const [username, setUsername] = useState(null);
+
+
   return (
     <Routes>
       <Route path="/">
-        <Route index element={<Login />}></Route>
-        <Route path="createuser" element={<CreateUser />}></Route>
+        <Route index element={<Login username={props.username} setUsername={props.setUsername}  />}></Route>
+        <Route path="createuser" element={<CreateUser username={props.username} setUsername={props.setUsername} />}></Route>
       </Route>
       <Route path="/home" element={<Layout />}>
-        <Route index element={<Home />}></Route>
-        <Route path="creategame" element={<CreateGame />}></Route>
+        <Route index element={<Home username={username} selectedSport={selectedSport} changeSport={changeSport} />}></Route>
+        <Route path="creategame" element={<CreateGame selectedSport={selectedSport} />}></Route>
         <Route path="settings" element={<Settings />}></Route>
       </Route>
     </Routes>

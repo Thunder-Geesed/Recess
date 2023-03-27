@@ -1,20 +1,40 @@
-import React from "react"
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = (props) => {
-
   const navigate = useNavigate();
+  const { username, setUsername } = props;
+
 
   const handleClick = () => {
+    fetch('/login', {
+      // Adding method type
+      method: 'POST',
+      // Adding body or contents to send
+      body: JSON.stringify({
+        username: user.username,
+        password: user.password,
+      }),
+
+      // Adding headers to the request
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+      .then((response) => response.json())
+      .then((user) => {
+        console.log('Got results', user);
+        setUsername(user.username);
+      });
+
     return navigate('/home');
   };
-
 
   return (
     <div>
       <form>
         <label className="block">
-          <span className="block text-sm font-medium text-slate-700">
+          <span className="flex text-sm font-medium text-slate-700">
             Username
           </span>
           <input
