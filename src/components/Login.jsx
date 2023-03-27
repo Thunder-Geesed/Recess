@@ -3,11 +3,17 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const Login = (props) => {
   const navigate = useNavigate();
-  const { username, setUsername } = props;
+  const { changeUsername } = props;
 
+  const [username, setUsername] = useState('username');
+  const [password, setPassword] = useState('');
 
-  const handleClick = () => {
-    fetch('/login', {
+  const handleClick = async (e) => {
+    e.preventDefault()
+    const user = {};
+    user.username = username
+    user.password = password
+    await fetch('./login', {
       // Adding method type
       method: 'POST',
       // Adding body or contents to send
@@ -24,10 +30,14 @@ const Login = (props) => {
       .then((response) => response.json())
       .then((user) => {
         console.log('Got results', user);
-        setUsername(user.username);
+        changeUsername(username);
+         return navigate('./home');
+      })
+      .catch( (err) => {
+        console.log(err);
       });
 
-    return navigate('/home');
+    
   };
 
   return (
@@ -38,8 +48,12 @@ const Login = (props) => {
             Username
           </span>
           <input
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+            value={username}
             type="text"
-            defaultValue="tbone"
+            id="username"
             className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
             focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
             disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
@@ -52,8 +66,12 @@ const Login = (props) => {
             Password
           </span>
           <input
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            value={password}
             type="password"
-            defaultValue="tbone"
+            id="password"
             className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
             focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
             disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none

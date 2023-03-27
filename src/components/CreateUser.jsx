@@ -3,7 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const CreateUser = (props) => {
   const navigate = useNavigate();
-  const { username, changeUsername } = props;
+
+  const { changeUsername } = props;
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [location, setLocation] = useState('');
 
   function showPosition(position) {
     console.log(position);
@@ -17,18 +22,18 @@ const CreateUser = (props) => {
     );
   }
 
-  const handleClick = (user) => {
+  const handleClick = async (user) => {
     if (!user.location) user.location = 'temp fixme';
     // POST request using fetch()
-    fetch('/createuser', {
+    awaitfetch('/createuser', {
       // Adding method type
       method: 'POST',
       // Adding body or contents to send
       body: JSON.stringify({
-        username: user.username,
-        password: user.password,
-        email: user.email,
-        location: user.location,
+        username: {username},
+        password: {password},
+        email: {email},
+        location: {location},
       }),
 
       // Adding headers to the request
@@ -39,10 +44,13 @@ const CreateUser = (props) => {
       .then((response) => response.json())
       .then((user) => {
         console.log('Got results', user);
-        props.setUsername(user.username);
-      });
-
-    return navigate('/home');
+        setUsername(user.username);
+        return navigate('/home');
+      })
+      .catch((error) => {
+        console.log('error')
+      })
+      ;
   };
 
   return (
@@ -161,16 +169,13 @@ const CreateUser = (props) => {
         </fieldset>
         <button
           onClick={() => {
-            const user = {};
-            user.email = document.getElementById('email').value;
-            user.username = document.getElementById('username').value;
-            user.password = document.getElementById('password').value;
+            let user = {};
             let loc = document.getElementById('location').value;
             if (loc) user.location = loc;
             else
               user.location =
                 navigator.geolocation.getCurrentPosition(showPosition);
-            handleClick(user);
+            handleClick();
           }}
           className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white"
         >

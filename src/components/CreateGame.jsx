@@ -3,7 +3,7 @@ import React from "react"
 const CreateGame = (props) => {
   //{"name":"matts test game2","type":"basketball","datetime":"2023-04-08","location":"queens NY","maxplayers":"10"}
 
-  const handleClick = () => {
+  const handleClick = async () => {
     const game = {};
     try {
       game.name = document.getElementById('name').value;
@@ -16,10 +16,8 @@ const CreateGame = (props) => {
     }
     console.log('Submitting ', game);
  
-     fetch('/creategame', {
-      // Adding method type
+     await fetch('/creategame', {
       method: 'POST',
-      // Adding body or contents to send
       body: JSON.stringify({
         name: game.name,
         type: game.type,
@@ -27,8 +25,6 @@ const CreateGame = (props) => {
         location: game.location,
         maxplayers: game.maxplayers,
       }),
-
-      // Adding headers to the request
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
       },
@@ -41,7 +37,26 @@ const CreateGame = (props) => {
         console.log(err);
       });
 
-    //return navigate('/home');
+      //join the game we just created
+      const gid = 1;
+      await fetch('/joingame', {
+        method: 'POST',
+        body: JSON.stringify({
+          gameId: gid
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      })
+        .then((response) => response.json())
+        .then((user) => {
+          console.log('Got results', user);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+    return navigate('/home');
   };
 
   return (

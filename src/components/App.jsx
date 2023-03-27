@@ -9,13 +9,14 @@ import Settings from './Settings.jsx'
 const App = (props) => {
   const [selectedSport, changeSport] = useState(null);
   const [username, setUsername] = useState(null);
-
+  const location = useLocation();
+  console.log(location)
 
   return (
     <Routes>
       <Route path="/">
-        <Route index element={<Login username={props.username} setUsername={props.setUsername}  />}></Route>
-        <Route path="createuser" element={<CreateUser username={props.username} setUsername={props.setUsername} />}></Route>
+        <Route index element={<Login changeUsername={setUsername}  />}></Route>
+        <Route path="createuser" element={<CreateUser changeUsername={setUsername} />}></Route>
       </Route>
       <Route path="/home" element={<Layout />}>
         <Route index element={<Home username={username} selectedSport={selectedSport} changeSport={changeSport} />}></Route>
