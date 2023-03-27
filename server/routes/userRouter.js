@@ -4,8 +4,8 @@ const path = require('path');
 const userController = require('../controllers/userController.js');
 const cookieController = require('../controllers/cookieController.js');
 
-router.post('/', userController.addUser, (req, res) => {
-  return res.sendStatus(200);
+router.post('/', userController.addUser, cookieController.createCookie, (req, res) => {
+  return res.redirect('/home');
 });
 
 router.use(express.static(path.resolve(__dirname, '../../dist')));

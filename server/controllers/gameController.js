@@ -8,13 +8,7 @@ const gameController = {
       const { datetime } = req.body;
       const { location } = req.body;
       const { maxplayers } = req.body;
-      if (
-        name == undefined ||
-        type == undefined ||
-        datetime == undefined ||
-        location == undefined ||
-        maxplayers == undefined
-      ) {
+      if (name == undefined || type == undefined || datetime == undefined || location == undefined || maxplayers == undefined) {
         return next({
           log: 'gameController: ERROR: Missing required fields',
           status: '400',
@@ -24,10 +18,11 @@ const gameController = {
         });
       }
 
-      const queryString = `INSERT INTO games (name, type, datetime, location, maxplayers) VALUES ('${name}', '${type}', '${datetime}', '${location}', '${maxplayers}');`;
+      const queryString = `INSERT INTO games (name, type, datetime, location, maxplayers) VALUES ('${name}', '${type}', '${datetime}', '${location}', '${maxplayers}') RETURNING name, type, datetime, location, maxplayers, game_id;`;
 
       db.query(queryString).then((data) => {
-        res.locals.newGame = data;
+        res.locals.newGame = data.rows[0];
+        res.locals.gameId = data.rows[0].game_id;
         return next();
       });
     } catch (err) {
@@ -43,7 +38,12 @@ const gameController = {
   addUserToGame(req, res, next) {
     try {
       const { userId } = req.cookies;
-      const { gameId } = req.body;
+      let gameId;
+      if (req.body.gameId) {
+        gameId = req.body;
+      } else {
+        gameId = res.locals.gameId;
+      }
 
       const queryString = `INSERT INTO users_games (user_id, game_id) VALUES ('${userId}', '${gameId}')`;
       db.query(queryString).then((data) => {
@@ -65,7 +65,16 @@ const gameController = {
       const queryString = `SELECT * FROM games`;
 
       db.query(queryString).then((results) => {
-        res.locals.games = results.rows;
+        const gamesObj = {};
+        results.rows.forEach((el) => {
+          if (gamesObj[el.type]) {
+            gamesObj[el.type].push(el);
+          } else {
+            gamesObj[el.type] = [el];
+          }
+        });
+        console.log(gamesObj);
+        res.locals.games = gamesObj;
         return next();
       });
     } catch (err) {

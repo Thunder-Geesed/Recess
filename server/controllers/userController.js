@@ -9,12 +9,7 @@ const userController = {
       let { password } = req.body;
       const { location } = req.body;
 
-      if (
-        username == undefined ||
-        email == undefined ||
-        password == undefined ||
-        location == undefined
-      ) {
+      if (username == undefined || email == undefined || password == undefined || location == undefined) {
         return next({
           log: 'teammateController: ERROR: Missing required fields',
           status: '400',
@@ -27,9 +22,11 @@ const userController = {
       bcrypt.hash(password, 10, (err, hash) => {
         if (err) return next(err);
         password = hash;
-        const queryString = `INSERT INTO users (username, password, email, location) VALUES ('${username}', '${password}', '${email}', '${location}');`;
+        const queryString = `INSERT INTO users (username, password, email, location) VALUES ('${username}', '${password}', '${email}', '${location}') RETURNING username, password, email, location, user_id;`;
         db.query(queryString).then((data) => {
-          res.locals.newUser = data;
+          console.log(data);
+          res.locals.newUser = data.rows[0];
+          res.locals.userId = data.rows[0].user_id;
           return next();
         });
       });
