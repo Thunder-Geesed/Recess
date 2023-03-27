@@ -47,14 +47,14 @@ const gameController = {
 
       const queryString = `INSERT INTO users_games (user_id, game_id) VALUES ('${userId}', '${gameId}')`;
       db.query(queryString).then((data) => {
-        res.locals.userAddedToGame = data;
+        res.locals.added = true;
         return next();
       });
     } catch (err) {
       return next({
-        log: `gameController.addUserToGame: ERROR ${err}`,
+        log: `gameeController.addGame: ERROR ${err}`,
         message: {
-          err: 'gameController.addUserToGame: ERROR: could not add user to game',
+          err: 'gameeController.addGame: ERROR: Game not created',
         },
       });
     }
@@ -90,7 +90,7 @@ GROUP BY games.game_id, games.name, games.type,games.datetime ,games."location" 
 
   findUsersInGame(req, res, next) {
     try {
-      const { gameId } = req.body;
+      const { gameId } = req.params;
 
       const queryString = `
       SELECT username FROM users INNER JOIN users_games ON users.user_id = users_games.user_id WHERE game_id = '${gameId}'`;
@@ -119,13 +119,18 @@ GROUP BY games.game_id, games.name, games.type,games.datetime ,games."location" 
 
       const queryString = `DELETE FROM users_games WHERE user_id = '${userId}' AND game_id = '${gameId}'`;
       db.query(queryString).then((data) => {
+        if (data.rowCount > 0) {
+          res.locals.deleted = true;
+        } else {
+          res.locals.deleted = false;
+        }
         return next();
       });
     } catch (err) {
       return next({
-        log: `gameController.leaveGame: ERROR ${err}`,
+        log: `gameController.findUsersInGame: ERROR ${err}`,
         message: {
-          err: 'gameController.leaveGame: ERROR: Game not created',
+          err: 'gameController.findUsersInGame: ERROR: Game not found',
         },
       });
     }
