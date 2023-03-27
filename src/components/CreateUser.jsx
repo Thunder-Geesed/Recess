@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const CreateUser = (props) => {
@@ -30,10 +30,10 @@ const CreateUser = (props) => {
       method: 'POST',
       // Adding body or contents to send
       body: JSON.stringify({
-        username: {username},
-        password: {password},
-        email: {email},
-        location: {location},
+        username: { username },
+        password: { password },
+        email: { email },
+        location: { location },
       }),
 
       // Adding headers to the request
@@ -44,13 +44,12 @@ const CreateUser = (props) => {
       .then((response) => response.json())
       .then((user) => {
         console.log('Got results', user);
-        setUsername(user.username);
+        changeUsername(username);
         return navigate('/home');
       })
       .catch((error) => {
-        console.log('error')
-      })
-      ;
+        console.log('error');
+      });
   };
 
   return (
@@ -64,6 +63,7 @@ const CreateUser = (props) => {
             type="email"
             defaultValue="youraddress@domain.com"
             id="email"
+            value={email}
             className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
             focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
             disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
@@ -83,6 +83,7 @@ const CreateUser = (props) => {
               Math.floor(Math.random() * 1000)
             }
             id="username"
+            value={username}
             className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
             focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
             disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
@@ -98,6 +99,7 @@ const CreateUser = (props) => {
             type="password"
             defaultValue="password123"
             id="password"
+            value={password}
             className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
             focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
             disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
