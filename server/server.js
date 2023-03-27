@@ -3,7 +3,7 @@ const app = express();
 const path = require('path');
 const PORT = 3000;
 
-// const userController = require('./controllers/userController.js');
+const userController = require('./controllers/userController.js');
 const cookieController = require('./controllers/cookieController.js');
 // const gameController = require('./controllers/gameController.js');
 
@@ -23,9 +23,14 @@ app.use('/createuser', userRouter);
 
 app.use('/game', gameRouter);
 
-app.post('/login', cookieController.createCookie, (req, res) => {
-  return res.sendStatus(200);
-});
+app.post(
+  '/login',
+  userController.verifyUser,
+  cookieController.createCookie,
+  (req, res) => {
+    return res.sendStatus(200);
+  }
+);
 
 app.use((req, res) => res.status(404).send('Page not found.'));
 

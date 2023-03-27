@@ -8,7 +8,13 @@ const gameController = {
       const { datetime } = req.body;
       const { location } = req.body;
       const { maxplayers } = req.body;
-      if (name == undefined || type == undefined || datetime == undefined || location == undefined || maxplayers == undefined) {
+      if (
+        name == undefined ||
+        type == undefined ||
+        datetime == undefined ||
+        location == undefined ||
+        maxplayers == undefined
+      ) {
         return next({
           log: 'gameController: ERROR: Missing required fields',
           status: '400',
@@ -71,7 +77,34 @@ const gameController = {
       });
     }
   },
+
+  findUsersInGame(req, res, next) {
+    try {
+      const { gameId } = req.body;
+
+      const queryString = `
+      SELECT username FROM users INNER JOIN users_games ON users.user_id = users_games.user_id WHERE game_id = '${gameId}'`;
+      db.query(queryString).then((data) => {
+        const userList = [];
+        data.rows.forEach((el) => {
+          userList.push(el.username);
+        });
+        res.locals.usersAddedToGame = userList;
+        return next();
+      });
+    } catch (err) {
+      return next({
+        log: `gameController.findUsersInGame: ERROR ${err}`,
+        message: {
+          err: 'gameController.findUsersInGame: ERROR: Game not found',
+        },
+      });
+    }
+  },
 };
+
+// SELECT username FROM users INNER JOIN users_games ON users.user_id = users_games.user_id WHERE game_id = '1';
+
 module.exports = gameController;
 
 // if (!deleted) {
