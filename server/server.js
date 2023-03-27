@@ -24,7 +24,7 @@ app.use('/createuser', userRouter);
 app.use('/game', gameRouter);
 
 app.post('/login', userController.verifyUser, cookieController.createCookie, (req, res) => {
-  return res.sendStatus(200);
+  return res.json(res.locals.username);
 });
 
 app.use((req, res) => res.status(404).send('Page not found.'));

@@ -40,7 +40,7 @@ const gameController = {
       const { userId } = req.cookies;
       let gameId;
       if (req.body.gameId) {
-        gameId = req.body;
+        gameId = req.body.gameId;
       } else {
         gameId = res.locals.gameId;
       }

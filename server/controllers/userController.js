@@ -52,11 +52,12 @@ const userController = {
     }
 
     const queryString = `
-    SELECT user_id, password FROM users WHERE username = '${username}';
+    SELECT user_id, username, password FROM users WHERE username = '${username}';
     `;
     db.query(queryString).then((result) => {
       if (result.rows.length !== 0) {
         res.locals.userId = result.rows[0].user_id;
+        res.locals.username = result.rows[0].username;
         bcrypt.compare(password, result.rows[0].password).then((result) => {
           if (!result) {
             return next({
