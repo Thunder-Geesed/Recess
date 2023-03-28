@@ -1,9 +1,14 @@
-import React from "react"
+import React, {useState} from "react"
+import { useNavigate } from "react-router-dom";
 
 const CreateGame = (props) => {
+  const navigate = useNavigate();
   //{"name":"matts test game2","type":"basketball","datetime":"2023-04-08","location":"queens NY","maxplayers":"10"}
 
-  const handleClick = async () => {
+  const [gameId, setGameId] = useState('');
+
+  const handleClick = async (e) => {
+    e.preventDefault();
     const game = {};
     try {
       game.name = document.getElementById('name').value;
@@ -15,8 +20,8 @@ const CreateGame = (props) => {
       console.log(err);
     }
     console.log('Submitting ', game);
- 
-     await fetch('/creategame', {
+
+    await fetch('/home/creategame', {
       method: 'POST',
       body: JSON.stringify({
         name: game.name,
@@ -32,36 +37,23 @@ const CreateGame = (props) => {
       .then((response) => response.json())
       .then((user) => {
         console.log('Got results', user);
+        navigate('/home')
       })
       .catch((err) => {
         console.log(err);
       });
 
-      //join the game we just created
-      const gid = 1;
-      await fetch('/joingame', {
-        method: 'POST',
-        body: JSON.stringify({
-          gameId: gid
-        }),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      })
-        .then((response) => response.json())
-        .then((user) => {
-          console.log('Got results', user);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-    return navigate('/home');
+    
   };
 
   return (
     <div className="container h-screen">
-      <form className="">
+      <img
+        src="./RECESS_LOGO_APPversion_noBG_w135.png"
+        alt=""
+        className="mx-auto my-4"
+      />
+      <form className="text-center space-y-2">
         {/*
             GAME NAME
       
@@ -95,15 +87,15 @@ const CreateGame = (props) => {
           invalid:border-pink-500 invalid:text-pink-600
           focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
         >
-          <option value="soccer">Soccer</option>
-          <option value="basketball">Basketball</option>
-          <option value="football">Football</option>
-          <option value="baseball">Baseball</option>
+          <option value="soccer">soccer</option>
+          <option value="basketball">basketball</option>
+          <option value="football">football</option>
+          <option value="baseball">baseball</option>
         </select>
 
         <label className="block">
           <span className="block text-sm font-medium text-slate-700">
-            Datetime
+            Date and Time
           </span>
           <input
             type="text"
@@ -164,7 +156,7 @@ const CreateGame = (props) => {
 
         <label className="block">
           <span className="block text-sm font-medium text-slate-700">
-            Maxplayers
+            Maximum Players
           </span>
           <input
             type="text"
@@ -179,10 +171,7 @@ const CreateGame = (props) => {
         </label>
 
         <button
-          onClick={() => {
-            //console.log('test');
-            handleClick();
-          }}
+          onClick={handleClick}
           className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white"
         >
           Create Game

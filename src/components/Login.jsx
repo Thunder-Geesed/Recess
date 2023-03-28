@@ -10,17 +10,11 @@ const Login = (props) => {
 
   const handleClick = async (e) => {
     e.preventDefault()
-    const user = {};
-    user.username = username
-    user.password = password
     await fetch('./login', {
       // Adding method type
       method: 'POST',
       // Adding body or contents to send
-      body: JSON.stringify({
-        username: user.username,
-        password: user.password,
-      }),
+      body: JSON.stringify({username, password}),
 
       // Adding headers to the request
       headers: {
@@ -29,7 +23,6 @@ const Login = (props) => {
     })
       .then((response) => response.json())
       .then((user) => {
-        console.log('Got results', user);
         changeUsername(username);
          return navigate('./home');
       })
@@ -42,9 +35,14 @@ const Login = (props) => {
 
   return (
     <div>
-      <form>
-        <label className="block">
-          <span className="flex text-sm font-medium text-slate-700">
+      <img
+        src="./RECESS_LOGO_APPversion_noBG_w135.png"
+        alt=""
+        className="mx-auto my-4"
+      />
+      <form className="text-center space-y-2">
+        <label className="block mx-auto">
+          <span className="block text-sm font-medium text-slate-700">
             Username
           </span>
           <input
@@ -82,13 +80,13 @@ const Login = (props) => {
         </label>
         <button
           onClick={handleClick}
-          className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white"
+          className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white mx-auto"
         >
           Login
         </button>
         <Link
           to={'/createuser'}
-          className="block top-[7.5rem] left-12 w-40 text-xs text-center underline hover:text-red-600"
+          className="block top-[7.5rem] left-12 w-40 text-xs text-center underline hover:text-red-600 mx-auto"
         >
           <p className="hover:text-red-600">
             {' '}
