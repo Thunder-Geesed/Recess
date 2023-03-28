@@ -27,9 +27,8 @@ const CreateUser = (props) => {
     );
   }
 
-  const handleClick = async (user) => {
-    if (!user.location) user.location = 'temp fixme';
-    console.log('Handling click');
+  const handleClick = async (e) => {
+    e.preventDefault();
 
     // POST request using fetch()
     await fetch('/createuser', {
@@ -52,18 +51,24 @@ const CreateUser = (props) => {
       .then((user) => {
         console.log('Got results', user);
         changeUsername(username);
+        return navigate('/home');
       })
       .catch((error) => {
         console.log('error');
       });
 
-      //move this back to make it actually work
+    //move this back to make it actually work
     return navigate('/home');
   };
 
   return (
     <div className="container h-screen">
-      <form className="">
+      <img
+        src="./RECESS_LOGO_APPversion_noBG_w135.png"
+        alt=""
+        className="mx-auto my-4"
+      />
+      <form className="text-center space-y-2">
         <label className="block">
           <span className="block text-sm font-medium text-slate-700">
             Email
@@ -188,15 +193,7 @@ const CreateUser = (props) => {
           </div>
         </fieldset>
         <button
-          onClick={() => {
-            let user = {};
-            let loc = document.getElementById('location').value;
-            if (loc) user.location = loc;
-            else
-              user.location =
-                navigator.geolocation.getCurrentPosition(showPosition);
-            handleClick();
-          }}
+          onClick={handleClick}
           className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white"
         >
           Register

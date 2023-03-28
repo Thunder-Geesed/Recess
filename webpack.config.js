@@ -57,11 +57,27 @@ module.exports = {
         target: 'http://localhost:3000/',
         secure: false,
       },
+      '/*': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      },
+      '/home/*': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      },
+      '/home/gameplayers/*': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      },
+      '/home/joingame': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      },
     },
   },
   plugins: [
     new HtmlWebPackPlugin({
-      title: 'Development',
+      title: 'Recess',
       template: path.resolve(__dirname, 'index.html'),
     }),
   ],

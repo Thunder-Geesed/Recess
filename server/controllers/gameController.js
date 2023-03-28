@@ -39,8 +39,8 @@ const gameController = {
     try {
       const { userId } = req.cookies;
       let gameId;
-      if (req.body.gameId) {
-        gameId = req.body.gameId;
+      if (req.params.gameId) {
+        gameId = req.params.gameId;
       } else {
         gameId = res.locals.gameId;
       }
@@ -67,12 +67,10 @@ LEFT JOIN users_games ON games.game_id = users_games.game_id
 GROUP BY games.game_id, games.name, games.type,games.datetime ,games."location" ,games.maxplayers`;
 
       db.query(queryString).then((results) => {
-        const gamesObj = {};
+        const gamesObj = { baseball: [], football: [], basketball: [], soccer: [] };
         results.rows.forEach((el) => {
           if (gamesObj[el.type]) {
             gamesObj[el.type].push(el);
-          } else {
-            gamesObj[el.type] = [el];
           }
         });
         res.locals.games = gamesObj;
@@ -91,7 +89,6 @@ GROUP BY games.game_id, games.name, games.type,games.datetime ,games."location" 
   findUsersInGame(req, res, next) {
     try {
       const { gameId } = req.params;
-
       const queryString = `
       SELECT username FROM users INNER JOIN users_games ON users.user_id = users_games.user_id WHERE game_id = '${gameId}'`;
       db.query(queryString).then((data) => {

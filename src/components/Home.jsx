@@ -20,20 +20,19 @@ const Home = (props) => {
 
   useEffect(() => {
     async function getData() {
-      await fetch('/home/games')
+      const getGames = await fetch('/home/games')
       .then((response) => response.json())
       .then((data) => {
-        if (data) {
+        console.log(data)
         setGames({
           baseball: data.baseball,
           football: data.football,
           basketball: data.basketball,
           soccer: data.soccer
         })
-      }
       })
       .catch((error) => {
-        console.log('retrieved games')
+        console.log(error, 'err')
       })
     }
     getData();
@@ -44,7 +43,11 @@ const Home = (props) => {
   return (
     <div>
       <nav className="flex flex-wrap justify-center fixed top-0 w-full px-3  border-b-2 border-b-stone-600 pt-16 bg-blue-400 z-10">
-        <img src="./fa1504baab1d08173f0f.png" className="block mb-4" alt="" />
+        <img
+          src="./RECESS_LOGO_w135px.png"
+          className="block mb-4"
+          alt=""
+        />
         <div className="flex justify-between w-full">
           <div
             onClick={() => handleClick('baseball')}
@@ -191,7 +194,11 @@ const Home = (props) => {
           </div>
         </div>
       </nav>
-      <DisplayGames selectedSport={selectedSport} games={games} username={username}/>
+      <DisplayGames
+        selectedSport={selectedSport}
+        games={games}
+        username={username}
+      />
     </div>
   );
 };
