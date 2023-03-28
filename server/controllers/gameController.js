@@ -67,12 +67,7 @@ LEFT JOIN users_games ON games.game_id = users_games.game_id
 GROUP BY games.game_id, games.name, games.type,games.datetime ,games."location" ,games.maxplayers`;
 
       db.query(queryString).then((results) => {
-        const gamesObj = {
-          baseball: [],
-          football: [],
-          basketball: [],
-          soccer: [],
-        };
+        const gamesObj = { baseball: [], football: [], basketball: [], soccer: [] };
         results.rows.forEach((el) => {
           if (gamesObj[el.type]) {
             gamesObj[el.type].push(el);
