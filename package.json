@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon server/server.js",
     "build": "webpack",
-    "dev": "nodemon server/server.js & webpack serve"
+    "dev": "nodemon server/server.js & webpack serve",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +30,7 @@
     "css-loader": "^6.7.3",
     "html-webpack-plugin": "^5.5.0",
     "isomorphic-fetch": "^3.0.0",
+    "jest": "^29.5.0",
     "mini-css-extract-plugin": "^2.7.5",
     "mongoose": "^7.0.2",
     "nodemon": "^2.0.21",
@@ -40,6 +42,7 @@
     "react-router-dom": "^6.9.0",
     "source-map-loader": "^1.0.0",
     "style-loader": "^3.3.2",
+    "supertest": "^6.3.3",
     "svg-url-loader": "^8.0.0",
     "tailwindcss": "^3.2.7",
     "webpack": "^5.76.2",
