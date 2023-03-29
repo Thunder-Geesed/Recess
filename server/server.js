@@ -26,9 +26,18 @@ app.use('/createuser', userRouter);
 
 app.use('/game', gameRouter);
 
-app.post('/login', userController.verifyUser, cookieController.createCookie, (req, res) => {
-  return res.json(res.locals.username);
+app.get('/logout', cookieController.removeCookie, (req, res) => {
+  return res.json(res.locals.removed);
 });
+
+app.post(
+  '/login',
+  userController.verifyUser,
+  cookieController.createCookie,
+  (req, res) => {
+    return res.json(res.locals.username);
+  }
+);
 
 app.use((req, res) => res.status(404).send('Page not found.'));
 
