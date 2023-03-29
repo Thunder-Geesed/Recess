@@ -19,8 +19,8 @@ app.use(cookieParser());
 
 app.use(express.static(path.resolve(__dirname, '../dist')));
 
-// app.use('/home', cookieController.checkCookie, homeRouter);
-app.use('/home', homeRouter);
+app.use('/home', cookieController.checkCookie, homeRouter);
+// app.use('/home', homeRouter);
 
 app.use('/createuser', userRouter);
 
