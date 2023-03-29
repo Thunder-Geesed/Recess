@@ -23,4 +23,15 @@ cookieController.checkCookie = (req, res, next) => {
   }
 };
 
+cookieController.removeCookie = (req, res, next) => {
+  if (req.cookies.userId) {
+    res.clearCookie('userId');
+    res.locals.removed = true;
+    return next();
+  } else {
+    console.log('no coookies found');
+    return next();
+  }
+};
+
 module.exports = cookieController;
