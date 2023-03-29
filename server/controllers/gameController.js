@@ -42,7 +42,6 @@ const gameController = {
   },
 
   addUserToGame(req, res, next) {
-    console.log('we are in the addUserToGame middleware function');
     try {
       const { userId } = req.cookies;
       let gameId;
@@ -53,7 +52,6 @@ const gameController = {
       }
       const playerQuery = `SELECT (user_id, '${gameId}') FROM users_games`;
       const queryString = `INSERT INTO users_games (user_id, game_id) VALUES ('${userId}', '${gameId}')`;
-      console.log(sb.query('here is the playerQuery ', playerQuery));
       db.query(queryString).then((data) => {
         res.locals.added = true;
         return next();

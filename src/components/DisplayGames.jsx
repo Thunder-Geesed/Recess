@@ -40,6 +40,7 @@ const DisplayGames = (props) => {
         console.log('Here is the gameplayer data ', data);
         if (data.includes(username)) {
           alreadyParticipating = true;
+          //generate a 'already signed up' notificaiton
         }
       });
 
@@ -139,6 +140,7 @@ const DisplayGames = (props) => {
         //currentplayers
         console.log(el);
         arr.push(
+          //OWN COMPONENT WITH ITS OWN STATE / PLAYERS FOR EACH GAME & GET REQUEST FOR GAME PLAYERS
           <details
             key={el.game_id}
             onClick={() => {
@@ -155,6 +157,7 @@ const DisplayGames = (props) => {
             </summary>
             <div className='flex justify-evenly items-center pt-5 pb-6 mx-auto w-10/12 bg-rose-700 border-l border-b border-r h-20  rounded-b-md'>
               <div className='w-7/12 h-20 overflow-auto'>
+                {/* PLAYER LIST NEEDS  TO BE SPEARATED BY EACH COMPOENENT INTO MINI STATE // RIGHT NOW IS BEING SHARED */}
                 <ul>{playerList}</ul>
               </div>
               <div className=' flex flex-col justify-evenly items-center w-4/12 h-20'>
