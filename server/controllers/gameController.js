@@ -8,7 +8,13 @@ const gameController = {
       const { datetime } = req.body;
       const { location } = req.body;
       const { maxplayers } = req.body;
-      if (name == undefined || type == undefined || datetime == undefined || location == undefined || maxplayers == undefined) {
+      if (
+        name == undefined ||
+        type == undefined ||
+        datetime == undefined ||
+        location == undefined ||
+        maxplayers == undefined
+      ) {
         return next({
           log: 'gameController: ERROR: Missing required fields',
           status: '400',
@@ -36,6 +42,7 @@ const gameController = {
   },
 
   addUserToGame(req, res, next) {
+    console.log('we are in the addUserToGame middleware function');
     try {
       const { userId } = req.cookies;
       let gameId;
@@ -44,17 +51,18 @@ const gameController = {
       } else {
         gameId = res.locals.gameId;
       }
-
+      const playerQuery = `SELECT (user_id, '${gameId}') FROM users_games`;
       const queryString = `INSERT INTO users_games (user_id, game_id) VALUES ('${userId}', '${gameId}')`;
+      console.log(sb.query('here is the playerQuery ', playerQuery));
       db.query(queryString).then((data) => {
         res.locals.added = true;
         return next();
       });
     } catch (err) {
       return next({
-        log: `gameeController.addGame: ERROR ${err}`,
+        log: `gameController.addGame: ERROR ${err}`,
         message: {
-          err: 'gameeController.addGame: ERROR: Game not created',
+          err: 'gameController.addGame: ERROR: Game not created',
         },
       });
     }
@@ -67,7 +75,12 @@ LEFT JOIN users_games ON games.game_id = users_games.game_id
 GROUP BY games.game_id, games.name, games.type,games.datetime ,games."location" ,games.maxplayers`;
 
       db.query(queryString).then((results) => {
-        const gamesObj = { baseball: [], football: [], basketball: [], soccer: [] };
+        const gamesObj = {
+          baseball: [],
+          football: [],
+          basketball: [],
+          soccer: [],
+        };
         results.rows.forEach((el) => {
           if (gamesObj[el.type]) {
             gamesObj[el.type].push(el);
