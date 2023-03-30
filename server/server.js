@@ -7,7 +7,7 @@ const userController = require('./controllers/userController.js');
 const cookieController = require('./controllers/cookieController.js');
 // const gameController = require('./controllers/gameController.js');
 
-const gameRouter = require('./routes/gameRouter.js');
+// const gameRouter = require('./routes/gameRouter.js');
 const userRouter = require('./routes/userRouter.js');
 const homeRouter = require('./routes/homeRouter.js');
 
@@ -24,7 +24,7 @@ app.use('/home', cookieController.checkCookie, homeRouter);
 
 app.use('/createuser', userRouter);
 
-app.use('/game', gameRouter);
+// app.use('/game', gameRouter);
 
 app.get('/logout', cookieController.removeCookie, (req, res) => {
   return res.json(res.locals.removed);
