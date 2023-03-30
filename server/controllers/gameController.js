@@ -11,13 +11,7 @@ const gameController = {
       const { datetime } = req.body;
       const { location } = req.body;
       const { maxplayers } = req.body;
-      if (
-        name == undefined ||
-        type == undefined ||
-        datetime == undefined ||
-        location == undefined ||
-        maxplayers == undefined
-      ) {
+      if (name == undefined || type == undefined || datetime == undefined || location == undefined || maxplayers == undefined) {
         return next({
           log: 'gameController: ERROR: Missing required fields',
           status: '400',
@@ -53,7 +47,16 @@ const gameController = {
       } else {
         gameId = res.locals.gameId;
       }
-      const playerQuery = `SELECT (user_id, '${gameId}') FROM users_games`;
+
+      if (gameId == undefined || userId == undefined) {
+        return next({
+          log: 'gameController: ERROR: Missing required fields',
+          status: '400',
+          message: {
+            err: 'Error occured in gameController.addUserToGame Missing required fields',
+          },
+        });
+      }
       const queryString = `INSERT INTO users_games (user_id, game_id) VALUES ('${userId}', '${gameId}')`;
       db.query(queryString).then((data) => {
         res.locals.added = true;

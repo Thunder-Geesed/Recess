@@ -26,6 +26,7 @@ const userController = {
         db.query(queryString).then((data) => {
           res.locals.newUser = data.rows[0];
           res.locals.userId = data.rows[0].user_id;
+          res.locals.username = data.rows[0].username;
           return next();
         });
       });

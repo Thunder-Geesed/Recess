@@ -32,6 +32,11 @@ const CreateUser = (props) => {
     );
   }
 
+  //RETURN TO LOGIN
+  const handleReturnToLogin = e => {
+
+  }
+
   //USERNAME INTO DATABASE
   const handleClick = async (e) => {
     e.preventDefault();
@@ -202,6 +207,15 @@ const CreateUser = (props) => {
         >
           Register
         </button>
+        <Link
+          to={'/'}
+          className='block top-[7.5rem] left-12 w-40 text-xs text-center underline hover:text-red-600 mx-auto'
+        >
+          <p className='hover:text-blue-600'>
+            {' '}
+            Return to Login{' '}
+          </p>
+        </Link>
       </form>
     </div>
   );
