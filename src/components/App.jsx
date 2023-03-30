@@ -1,5 +1,12 @@
-import React, { Component, useState } from 'react';
-import { Routes, Route, Navigate, useLocation, Outlet, Link } from 'react-router-dom';
+import React, { Component, useState, useEffect } from 'react';
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  Outlet,
+  Link,
+} from 'react-router-dom';
 import CreateUser from './CreateUser.jsx';
 import Home from './Home.jsx';
 import Login from './Login.jsx';
@@ -9,23 +16,72 @@ import Settings from './Settings.jsx';
 const App = (props) => {
   const [selectedSport, changeSport] = useState('baseball');
   const [username, setUsername] = useState(null);
-  const location = useLocation();
   const [games, setGames] = useState({
     baseball: [],
     football: [],
     basketball: [],
     soccer: [],
   });
+  const location = useLocation();
+<<<<<<< HEAD
+  const [games, setGames] = useState({
+    baseball: [],
+    football: [],
+    basketball: [],
+    soccer: [],
+  });
+=======
+  console.log(location);
+
+  useEffect(
+    () =>
+      fetch('/home/games', {
+        method: 'GET',
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          console.log('got all games');
+          setGames(response);
+        })
+        .catch((err) => console.log(err)),
+    []
+  );
+>>>>>>> dev
 
   return (
     <Routes>
       <Route path="/">
         <Route index element={<Login changeUsername={setUsername} />}></Route>
+<<<<<<< HEAD
         <Route path="createuser" element={<CreateUser changeUsername={setUsername} />}></Route>
       </Route>
       <Route path="/home" element={<Layout />}>
         <Route index element={<Home username={username} selectedSport={selectedSport} changeSport={changeSport} games={games} setGames={setGames} />}></Route>
         <Route path="creategame" element={<CreateGame selectedSport={selectedSport} />}></Route>
+=======
+        <Route
+          path="createuser"
+          element={<CreateUser changeUsername={setUsername} />}
+        ></Route>
+      </Route>
+      <Route path="/home" element={<Layout />}>
+        <Route
+          index
+          element={
+            <Home
+              username={username}
+              selectedSport={selectedSport}
+              changeSport={changeSport}
+              games={games}
+              setGames={setGames}
+            />
+          }
+        ></Route>
+        <Route
+          path="creategame"
+          element={<CreateGame selectedSport={selectedSport} />}
+        ></Route>
+>>>>>>> dev
         <Route path="settings" element={<Settings />}></Route>
       </Route>
     </Routes>
