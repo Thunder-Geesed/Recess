@@ -1,31 +1,75 @@
-import React, { Component, useState } from 'react';
-import { Routes, Route, Navigate, useLocation, Outlet, Link } from 'react-router-dom';
+import React, { Component, useState, useEffect } from 'react';
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  Outlet,
+  Link,
+} from 'react-router-dom';
 import CreateUser from './CreateUser.jsx';
 import Home from './Home.jsx';
-import Login from './Login.jsx'
-import CreateGame from './CreateGame.jsx'
-import Settings from './Settings.jsx'
+import Login from './Login.jsx';
+import CreateGame from './CreateGame.jsx';
+import Settings from './Settings.jsx';
 
 const App = (props) => {
   const [selectedSport, changeSport] = useState('baseball');
   const [username, setUsername] = useState(null);
+  const [games, setGames] = useState({
+    baseball: [],
+    football: [],
+    basketball: [],
+    soccer: [],
+  });
   const location = useLocation();
-  console.log(location)
+  console.log(location);
+
+  useEffect(
+    () =>
+      fetch('/home/games', {
+        method: 'GET',
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          console.log('got all games');
+          setGames(response);
+        })
+        .catch((err) => console.log(err)),
+    []
+  );
 
   return (
     <Routes>
       <Route path="/">
-        <Route index element={<Login changeUsername={setUsername}  />}></Route>
-        <Route path="createuser" element={<CreateUser changeUsername={setUsername} />}></Route>
+        <Route index element={<Login changeUsername={setUsername} />}></Route>
+        <Route
+          path="createuser"
+          element={<CreateUser changeUsername={setUsername} />}
+        ></Route>
       </Route>
       <Route path="/home" element={<Layout />}>
-        <Route index element={<Home username={username} selectedSport={selectedSport} changeSport={changeSport} />}></Route>
-        <Route path="creategame" element={<CreateGame selectedSport={selectedSport} />}></Route>
+        <Route
+          index
+          element={
+            <Home
+              username={username}
+              selectedSport={selectedSport}
+              changeSport={changeSport}
+              games={games}
+              setGames={setGames}
+            />
+          }
+        ></Route>
+        <Route
+          path="creategame"
+          element={<CreateGame selectedSport={selectedSport} />}
+        ></Route>
         <Route path="settings" element={<Settings />}></Route>
       </Route>
     </Routes>
   );
-}
+};
 
 function Layout() {
   return (
@@ -56,6 +100,4 @@ function Layout() {
   );
 }
 
-
-
-  export default App;
+export default App;
