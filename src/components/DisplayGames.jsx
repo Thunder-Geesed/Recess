@@ -147,25 +147,24 @@ const DisplayGames = (props) => {
               console.log('specific game selected');
               handleClick(el.game_id);
             }}
-            className='inline items-center mx-auto w-11/12 bg-rose-700 border-0 h-12 rounded-md shadow-md'
           >
-            <summary className='flex justify-evenly items-center border-0 bg-rose-700  h-12 rounded-md'>
-              <p>{el.name}</p> <p>{el.location}</p> <p>{el.datetime}</p>
+            <summary>
+              <p id='gameName'>{el.name}</p> <p>{el.location}</p>
+              <p>{el.datetime}</p>
               <p>
                 {el.currentplayers}/{el.maxplayers}
               </p>
             </summary>
-            <div className='flex justify-evenly items-center pt-5 pb-6 mx-auto w-10/12 bg-rose-700 border-l border-b border-r h-20  rounded-b-md'>
-              <div className='w-7/12 h-20 overflow-auto'>
+            <div id='gameDetails'>
+              <div>
                 {/* PLAYER LIST NEEDS  TO BE SPEARATED BY EACH COMPOENENT INTO MINI STATE // RIGHT NOW IS BEING SHARED */}
                 <ul>{playerList}</ul>
               </div>
-              <div className=' flex flex-col justify-evenly items-center w-4/12 h-20'>
+              <div id='gameButtons'>
                 <button
                   onClick={() => handleJoin(el.game_id)}
                   type='button'
                   id={`${el.game_id}-join`}
-                  className='bg-sky-500 hover:bg-sky-700 px-2 py-2 text-sm leading-3 rounded-md font-semibold text-white disabled:bg-sky-900 disabled:text-opacity-60'
                 >
                   JOIN
                 </button>
@@ -173,7 +172,6 @@ const DisplayGames = (props) => {
                   onClick={() => handleLeave(el.game_id)}
                   id={`${el.game_id}-leave`}
                   type='button'
-                  className='max-w-full bg-sky-500 hover:bg-sky-700 px-2 py-2 text-sm leading-3 rounded-md font-semibold text-white disabled:bg-sky-900 disabled:text-opacity-60'
                 >
                   LEAVE
                 </button>
@@ -186,11 +184,7 @@ const DisplayGames = (props) => {
     }
   }, [selectedSport]);
 
-  return (
-    <div className='fixed text-center top-32 bg-slate-400 pt-2 h-5/6 w-full overflow-auto space-y-10'>
-      {gameElements}
-    </div>
-  );
+  return <div id='gamesContainer'>{gameElements}</div>;
 };
 
 export default DisplayGames;
