@@ -32,6 +32,9 @@ const CreateUser = (props) => {
     );
   }
 
+  //RETURN TO LOGIN
+  const handleReturnToLogin = (e) => {};
+
   //USERNAME INTO DATABASE
   const handleClick = async (e) => {
     e.preventDefault();
@@ -141,7 +144,18 @@ const CreateUser = (props) => {
           </div>
           <div>Will use your current location.</div>
         </fieldset>
-        <button onClick={handleClick}>Register</button>
+        <button
+          onClick={handleClick}
+          className='bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white'
+        >
+          Register
+        </button>
+        <Link
+          to={'/'}
+          className='block top-[7.5rem] left-12 w-40 text-xs text-center underline hover:text-red-600 mx-auto'
+        >
+          <p className='hover:text-blue-600'> Return to Login </p>
+        </Link>
       </form>
     </div>
   );
