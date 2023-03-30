@@ -1,5 +1,8 @@
 const db = require('../models/teammateModels');
 
+if (process.env.NODE_ENV === 'test') {
+}
+
 const gameController = {
   addGame(req, res, next) {
     try {
@@ -139,6 +142,42 @@ GROUP BY games.game_id, games.name, games.type,games.datetime ,games."location" 
         log: `gameController.findUsersInGame: ERROR ${err}`,
         message: {
           err: 'gameController.findUsersInGame: ERROR: Game not found',
+        },
+      });
+    }
+  },
+
+  deleteGame(req, res, next) {
+    try {
+      const { gameId } = req.body;
+      if (gameId == undefined) {
+        return next({
+          log: 'gameController: ERROR: Missing required field',
+          status: '400',
+          message: {
+            err: 'Error occured in gameController.deleteGame Missing required field',
+          },
+        });
+      }
+
+      const queryString = `DELETE FROM users_games WHERE game_id = '${gameId}'`;
+      const queryString2 = `DELETE FROM games WHERE game_id = '${gameId}'`;
+
+      db.query(queryString).then(
+        db.query(queryString2).then((data) => {
+          if (data.rowCount > 0) {
+            res.locals.deleted = true;
+          } else {
+            res.locals.deleted = false;
+          }
+          return next();
+        })
+      );
+    } catch (err) {
+      return next({
+        log: `gameController.deleteGame: ERROR ${err}`,
+        message: {
+          err: 'gameController.delteGame: ERROR: Could not delete game',
         },
       });
     }
