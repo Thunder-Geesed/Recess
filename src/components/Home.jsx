@@ -1,22 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Routes,
-  Route,
-  Navigate,
-  useLocation,
-  Outlet,
-  Link,
-} from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation, Outlet, Link } from 'react-router-dom';
 import DisplayGames from './DisplayGames.jsx';
 
 const Home = (props) => {
-  const { selectedSport, changeSport, username, games, setGames } = props;
-  // const [games, setGames] = useState({
-  //   baseball: [],
-  //   football: [],
-  //   basketball: [],
-  //   soccer: [],
-  // });
+  const { selectedSport, changeSport, games, setGames } = props;
+  // console.log(props);
 
   const handleClick = (sport) => {
     changeSport(sport);
@@ -27,7 +15,7 @@ const Home = (props) => {
       const getGames = await fetch('/home/games')
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           setGames({
             baseball: data.baseball,
             football: data.football,
@@ -51,22 +39,10 @@ const Home = (props) => {
           alt=""
         /> */}
         <div className="flex justify-between w-full">
-          <div
-            onClick={() => handleClick('baseball')}
-            id="baseball"
-            className="w-1/4 flex justify-center px-2"
-          >
-            <svg
-              viewBox="0 0 48 48"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="#000000"
-            >
+          <div onClick={() => handleClick('baseball')} id="baseball" className="w-1/4 flex justify-center px-2">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#000000">
               <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-              <g
-                id="SVGRepo_tracerCarrier"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></g>
+              <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
               <g id="SVGRepo_iconCarrier">
                 {' '}
                 <title>sports-baseball</title>{' '}
@@ -85,22 +61,10 @@ const Home = (props) => {
             </svg>
           </div>
 
-          <div
-            onClick={() => handleClick('football')}
-            id="football"
-            className="w-1/4 flex justify-center px-2"
-          >
-            <svg
-              viewBox="0 0 48 48"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="#000000"
-            >
+          <div onClick={() => handleClick('football')} id="football" className="w-1/4 flex justify-center px-2">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#000000">
               <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-              <g
-                id="SVGRepo_tracerCarrier"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></g>
+              <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
               <g id="SVGRepo_iconCarrier">
                 {' '}
                 <title>sports-football</title>{' '}
@@ -123,22 +87,10 @@ const Home = (props) => {
             </svg>
           </div>
 
-          <div
-            onClick={() => handleClick('basketball')}
-            id="basketball"
-            className="w-1/4 flex justify-center px-2"
-          >
-            <svg
-              viewBox="0 0 48 48"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="#000000"
-            >
+          <div onClick={() => handleClick('basketball')} id="basketball" className="w-1/4 flex justify-center px-2">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#000000">
               <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-              <g
-                id="SVGRepo_tracerCarrier"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></g>
+              <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
               <g id="SVGRepo_iconCarrier">
                 {' '}
                 <title>sports-basketball</title>{' '}
@@ -157,22 +109,10 @@ const Home = (props) => {
             </svg>
           </div>
 
-          <div
-            onClick={() => handleClick('soccer')}
-            id="soccer"
-            className="w-1/4 flex justify-center px-2"
-          >
-            <svg
-              viewBox="0 0 48 48"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="#000000"
-            >
+          <div onClick={() => handleClick('soccer')} id="soccer" className="w-1/4 flex justify-center px-2">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#000000">
               <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-              <g
-                id="SVGRepo_tracerCarrier"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></g>
+              <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
               <g id="SVGRepo_iconCarrier">
                 {' '}
                 <title>sports-soccer</title>{' '}
@@ -196,11 +136,7 @@ const Home = (props) => {
           </div>
         </div>
       </nav>
-      <DisplayGames
-        selectedSport={selectedSport}
-        games={games}
-        username={username}
-      />
+      <DisplayGames selectedSport={selectedSport} games={games} />
     </div>
   );
 };

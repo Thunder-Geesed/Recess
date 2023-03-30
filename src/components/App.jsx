@@ -23,6 +23,14 @@ const App = (props) => {
     soccer: [],
   });
   const location = useLocation();
+<<<<<<< HEAD
+  const [games, setGames] = useState({
+    baseball: [],
+    football: [],
+    basketball: [],
+    soccer: [],
+  });
+=======
   console.log(location);
 
   useEffect(
@@ -38,11 +46,19 @@ const App = (props) => {
         .catch((err) => console.log(err)),
     []
   );
+>>>>>>> dev
 
   return (
     <Routes>
       <Route path="/">
         <Route index element={<Login changeUsername={setUsername} />}></Route>
+<<<<<<< HEAD
+        <Route path="createuser" element={<CreateUser changeUsername={setUsername} />}></Route>
+      </Route>
+      <Route path="/home" element={<Layout />}>
+        <Route index element={<Home username={username} selectedSport={selectedSport} changeSport={changeSport} games={games} setGames={setGames} />}></Route>
+        <Route path="creategame" element={<CreateGame selectedSport={selectedSport} />}></Route>
+=======
         <Route
           path="createuser"
           element={<CreateUser changeUsername={setUsername} />}
@@ -65,6 +81,7 @@ const App = (props) => {
           path="creategame"
           element={<CreateGame selectedSport={selectedSport} />}
         ></Route>
+>>>>>>> dev
         <Route path="settings" element={<Settings />}></Route>
       </Route>
     </Routes>
