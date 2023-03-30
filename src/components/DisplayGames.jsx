@@ -15,7 +15,11 @@ const DisplayGames = (props) => {
     }
   }, [selectedSport]);
 
-  return <div className="fixed text-center top-32 bg-slate-400 pt-2 h-5/6 w-full overflow-auto space-y-10">{gameElements}</div>;
+  return (
+    <div className='fixed text-center top-32 bg-slate-400 pt-2 h-5/6 w-full overflow-auto space-y-10'>
+      {gameElements}
+    </div>
+  );
 };
 
 export default DisplayGames;

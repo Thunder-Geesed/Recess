@@ -1,11 +1,19 @@
 
 TO DO
-- fix players display / LOOK IN DISPLAY GAMES 
--clean up tailwind / css
+-leave method
+-implement clicked button for each sport
+-delete game button for front end (home router / deleteGame)
 
 DONE
+-clean up tailwind / css
+  -get logo
+  -be able to see all the players
+-get rid of the filled out text in create game - change to placeholder
+-defualt sport pulled up
+- fix players display / LOOK IN DISPLAY GAMES /state issues
 - logout funcitonality -- delete cookie
 - make text appear if wrong password/username
+-button back to login from sign up
 - prevented home from appearing if wrong username or password
 - get players debugged
 - fixed join error that broke middleware functions and threw errors if someone

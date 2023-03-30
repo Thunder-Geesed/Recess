@@ -91,28 +91,18 @@ const App = (props) => {
 function Layout() {
   return (
     <div>
-      {/* A "layout route" is a good place to put markup you want to
-          share across all the pages on your site, like navigation. */}
       <Outlet />
-      <nav className="flex fixed bottom-0 w-full justify-between py-4 bg-blue-400">
-        <Link to="./creategame" className="w-1/3 text-center">
+      <nav id='bottomNav'>
+        <Link to='./creategame' className='links'>
           Create Game
         </Link>
-
-        <Link to="./" className="w-1/3 text-center">
-          Home
+        <Link to='./' className='links'>
+          Home{' '}
         </Link>
-
-        <Link to="./settings" className="w-1/3 text-center">
+        <Link to='./settings' className='links'>
           Settings
         </Link>
       </nav>
-
-      <hr />
-
-      {/* An <Outlet> renders whatever child route is currently active,
-          so you can think about this <Outlet> as a placeholder for
-          the child routes we defined above. */}
     </div>
   );
 }

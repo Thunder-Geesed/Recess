@@ -28,11 +28,15 @@ module.exports = {
           presets: ['@babel/preset-env', '@babel/preset-react'],
         },
       },
+      // {
+      //   test: /\.css$/i, //.(css|scss)$/,
+      //   include: path.resolve(__dirname, 'src'),
+      //   exclude: /node_modules/,
+      //   use: ['style-loader', 'css-loader', 'postcss-loader'],
+      // },
       {
-        test: /\.css$/i, //.(css|scss)$/,
-        include: path.resolve(__dirname, 'src'),
-        exclude: /node_modules/,
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.svg$/,

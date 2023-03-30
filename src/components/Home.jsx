@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate, useLocation, Outlet, Link } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  Outlet,
+  Link,
+} from 'react-router-dom';
 import DisplayGames from './DisplayGames.jsx';
 
 const Home = (props) => {
@@ -11,6 +18,10 @@ const Home = (props) => {
   };
 
   useEffect(() => {
+    // const logo = new Image();
+    // logo.src = '../../assets/logo_small.png';
+    // const container = document.getElementById('nav');
+    // container.appendChild(logo);
     async function getData() {
       const getGames = await fetch('/home/games')
         .then((response) => response.json())
@@ -29,21 +40,26 @@ const Home = (props) => {
     }
     getData();
   }, []);
-
   return (
-    <div>
-      <nav className="flex flex-wrap justify-center fixed top-0 w-full px-3  border-b-2 border-b-stone-600 pt-16 bg-blue-400 z-10">
-        {/* <img
-          src="./RECESS_LOGO_w135px.png"
-          className="block mb-4"
-          alt=""
-        /> */}
-        <div className="flex justify-between w-full">
-          <div onClick={() => handleClick('baseball')} id="baseball" className="w-1/4 flex justify-center px-2">
-            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#000000">
-              <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-              <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-              <g id="SVGRepo_iconCarrier">
+    <div id='homeContainer'>
+      <nav id='nav'>
+        <img id='logo' src={require('../../assets/logo_large.png')} />
+        <div id='iconContainer'>
+          <div id='baseballIcon' onClick={() => handleClick('baseball')}>
+            <img src='https://seeklogo.com/images/B/baseball-logo-300E6253DC-seeklogo.com.png' />
+            {/* <svg
+              className='icons'
+              viewBox='0 0 48 48'
+              xmlns='http://www.w3.org/2000/svg'
+              fill='#000000'
+            >
+              <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
+              <g
+                id='SVGRepo_tracerCarrier'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+              ></g>
+              <g id='SVGRepo_iconCarrier'>
                 {' '}
                 <title>sports-baseball</title>{' '}
                 <g id="Layer_2" data-name="Layer 2">
@@ -58,14 +74,24 @@ const Home = (props) => {
                   </g>{' '}
                 </g>{' '}
               </g>
-            </svg>
+            </svg> */}
           </div>
 
-          <div onClick={() => handleClick('football')} id="football" className="w-1/4 flex justify-center px-2">
-            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#000000">
-              <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-              <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-              <g id="SVGRepo_iconCarrier">
+          <div id='footballIcon' onClick={() => handleClick('football')}>
+            <img src='https://seeklogo.com/images/B/baseball-logo-300E6253DC-seeklogo.com.png' />
+            {/* <svg
+              className='icons'
+              viewBox='0 0 48 48'
+              xmlns='http://www.w3.org/2000/svg'
+              fill='#000000'
+            >
+              <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
+              <g
+                id='SVGRepo_tracerCarrier'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+              ></g>
+              <g id='SVGRepo_iconCarrier'>
                 {' '}
                 <title>sports-football</title>{' '}
                 <g id="Layer_2" data-name="Layer 2">
@@ -84,14 +110,25 @@ const Home = (props) => {
                   </g>{' '}
                 </g>{' '}
               </g>
-            </svg>
+            </svg> */}
           </div>
 
-          <div onClick={() => handleClick('basketball')} id="basketball" className="w-1/4 flex justify-center px-2">
-            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#000000">
-              <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-              <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-              <g id="SVGRepo_iconCarrier">
+          <div id='basketballIcon' onClick={() => handleClick('basketball')}>
+            <img src='https://seeklogo.com/images/B/baseball-logo-300E6253DC-seeklogo.com.png' />
+            {/* <h2>basketball</h2> */}
+            {/* <svg
+              className='icons'
+              viewBox='0 0 48 48'
+              xmlns='http://www.w3.org/2000/svg'
+              fill='#000000'
+            >
+              <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
+              <g
+                id='SVGRepo_tracerCarrier'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+              ></g>
+              <g id='SVGRepo_iconCarrier'>
                 {' '}
                 <title>sports-basketball</title>{' '}
                 <g id="Layer_2" data-name="Layer 2">
@@ -106,14 +143,25 @@ const Home = (props) => {
                   </g>{' '}
                 </g>{' '}
               </g>
-            </svg>
+            </svg> */}
           </div>
 
-          <div onClick={() => handleClick('soccer')} id="soccer" className="w-1/4 flex justify-center px-2">
-            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#000000">
-              <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-              <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-              <g id="SVGRepo_iconCarrier">
+          <div id='soccerIcon' onClick={() => handleClick('soccer')}>
+            <img src='https://seeklogo.com/images/B/baseball-logo-300E6253DC-seeklogo.com.png' />
+            {/* <h2>soccer</h2> */}
+            {/* <svg
+              className='icons'
+              viewBox='0 0 48 48'
+              xmlns='http://www.w3.org/2000/svg'
+              fill='#000000'
+            >
+              <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
+              <g
+                id='SVGRepo_tracerCarrier'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+              ></g>
+              <g id='SVGRepo_iconCarrier'>
                 {' '}
                 <title>sports-soccer</title>{' '}
                 <g id="Layer_2" data-name="Layer 2">
@@ -132,7 +180,7 @@ const Home = (props) => {
                   </g>{' '}
                 </g>{' '}
               </g>
-            </svg>
+            </svg> */}
           </div>
         </div>
       </nav>
