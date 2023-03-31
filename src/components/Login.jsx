@@ -42,17 +42,14 @@ const Login = (props) => {
 
   return (
     <div>
-      <img
-        src='./src/assets/RECESS_LOGO_APPversion_noBG_w135.png'
-        alt=''
-        className='mx-auto my-4'
-      />
-      <form className='text-center space-y-2'>
-        <label className='block mx-auto'>
-          <span className='block text-sm font-medium text-slate-700'>
-            Username
-          </span>
+      <div id='loginDiv'>
+        <img id='loginLogo' src={require('../../assets/logo_large.png')} />
+      </div>
+      <form id='loginForm'>
+        <label>
+          <span>Username</span>
           <input
+            className='userPass'
             onChange={(e) => {
               setUsername(e.target.value);
             }}
@@ -60,18 +57,12 @@ const Login = (props) => {
             type='text'
             id='username'
             placeholder='Username'
-            className='mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-            focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-            disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-            invalid:border-pink-500 invalid:text-pink-600
-            focus:invalid:border-pink-500 focus:invalid:ring-pink-500'
           />
         </label>
         <label className='block'>
-          <span className='block text-sm font-medium text-slate-700'>
-            Password
-          </span>
+          <span>Password</span>
           <input
+            className='userPass'
             onChange={(e) => {
               setPassword(e.target.value);
             }}
@@ -79,28 +70,13 @@ const Login = (props) => {
             type='password'
             id='password'
             placeholder='Password'
-            className='mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-            focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-            disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-            invalid:border-pink-500 invalid:text-pink-600
-            focus:invalid:border-pink-500 focus:invalid:ring-pink-500
-          '
           />
         </label>
-        <button
-          onClick={handleClick}
-          className='bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white mx-auto'
-        >
+        <button id='loginBtn' onClick={handleClick}>
           Login
         </button>
-        <Link
-          to={'/createuser'}
-          className='block top-[7.5rem] left-12 w-40 text-xs text-center underline hover:text-red-600 mx-auto'
-        >
-          <p className='hover:text-blue-600'>
-            {' '}
-            Don't have an account? Register now!{' '}
-          </p>
+        <Link to={'/createuser'}>
+          <p>Don't have an account? Register now!</p>
         </Link>
         <p id='LoginError' style={{ opacity: 0 }}>
           Incorrect Username or Password!

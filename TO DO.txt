@@ -1,10 +1,10 @@
 
-TO DO
--leave method
+STRETCH
 -implement clicked button for each sport
 -delete game button for front end (home router / deleteGame)
 
 DONE
+-leave method
 -clean up tailwind / css
   -get logo
   -be able to see all the players

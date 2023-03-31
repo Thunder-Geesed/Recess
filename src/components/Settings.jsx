@@ -21,6 +21,7 @@ const Settings = (props) => {
         onClick={() => {
           deleteCookie();
         }}
+        id='logout'
       >
         Logout
       </button>

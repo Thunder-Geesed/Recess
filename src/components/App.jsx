@@ -22,49 +22,34 @@ const App = (props) => {
     basketball: [],
     soccer: [],
   });
-  const location = useLocation();
-<<<<<<< HEAD
-  const [games, setGames] = useState({
-    baseball: [],
-    football: [],
-    basketball: [],
-    soccer: [],
-  });
-=======
-  console.log(location);
 
-  useEffect(
-    () =>
-      fetch('/home/games', {
-        method: 'GET',
+  const location = useLocation();
+
+  function getGamedata() {
+    fetch('/home/games', {
+      method: 'GET',
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        setGames(response);
       })
-        .then((response) => response.json())
-        .then((response) => {
-          console.log('got all games');
-          setGames(response);
-        })
-        .catch((err) => console.log(err)),
-    []
-  );
->>>>>>> dev
+      .catch((err) => console.log(err));
+  }
+
+  useEffect(() => {
+    getGamedata();
+  }, []);
 
   return (
     <Routes>
-      <Route path="/">
+      <Route path='/'>
         <Route index element={<Login changeUsername={setUsername} />}></Route>
-<<<<<<< HEAD
-        <Route path="createuser" element={<CreateUser changeUsername={setUsername} />}></Route>
-      </Route>
-      <Route path="/home" element={<Layout />}>
-        <Route index element={<Home username={username} selectedSport={selectedSport} changeSport={changeSport} games={games} setGames={setGames} />}></Route>
-        <Route path="creategame" element={<CreateGame selectedSport={selectedSport} />}></Route>
-=======
         <Route
-          path="createuser"
+          path='createuser'
           element={<CreateUser changeUsername={setUsername} />}
         ></Route>
       </Route>
-      <Route path="/home" element={<Layout />}>
+      <Route path='/home' element={<Layout />}>
         <Route
           index
           element={
@@ -78,11 +63,10 @@ const App = (props) => {
           }
         ></Route>
         <Route
-          path="creategame"
+          path='creategame'
           element={<CreateGame selectedSport={selectedSport} />}
         ></Route>
->>>>>>> dev
-        <Route path="settings" element={<Settings />}></Route>
+        <Route path='settings' element={<Settings />}></Route>
       </Route>
     </Routes>
   );

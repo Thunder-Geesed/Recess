@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const CreateGame = (props) => {
   const navigate = useNavigate();
-
+  const [location, setLocation] = useState('');
   const [gameId, setGameId] = useState('');
 
   const handleClick = async (e) => {
@@ -51,7 +51,7 @@ const CreateGame = (props) => {
       <form>
         <label className='block'>
           <span>Name</span>
-          <input type='name' placeholder='My basketball game' />
+          <input type='text' id='name' placeholder='My basketball game' />
         </label>
 
         <label htmlFor='type'>
