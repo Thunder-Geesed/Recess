@@ -77,6 +77,10 @@ module.exports = {
         target: 'http://localhost:3000/',
         secure: false,
       },
+      '/home/leavegame': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      },
     },
   },
   plugins: [
