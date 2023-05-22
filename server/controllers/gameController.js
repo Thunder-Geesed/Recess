@@ -1,5 +1,8 @@
 const db = require('../models/teammateModels');
 
+if (process.env.NODE_ENV === 'test') {
+}
+
 const gameController = {
   addGame(req, res, next) {
     try {
@@ -8,7 +11,14 @@ const gameController = {
       const { datetime } = req.body;
       const { location } = req.body;
       const { maxplayers } = req.body;
-      if (name == undefined || type == undefined || datetime == undefined || location == undefined || maxplayers == undefined) {
+      console.log(req.body);
+      if (
+        name == undefined ||
+        type == undefined ||
+        datetime == undefined ||
+        location == undefined ||
+        maxplayers == undefined
+      ) {
         return next({
           log: 'gameController: ERROR: Missing required fields',
           status: '400',
@@ -44,7 +54,7 @@ const gameController = {
       } else {
         gameId = res.locals.gameId;
       }
-
+      const playerQuery = `SELECT (user_id, '${gameId}') FROM users_games`;
       const queryString = `INSERT INTO users_games (user_id, game_id) VALUES ('${userId}', '${gameId}')`;
       db.query(queryString).then((data) => {
         res.locals.added = true;
@@ -52,9 +62,9 @@ const gameController = {
       });
     } catch (err) {
       return next({
-        log: `gameeController.addGame: ERROR ${err}`,
+        log: `gameController.addGame: ERROR ${err}`,
         message: {
-          err: 'gameeController.addGame: ERROR: Game not created',
+          err: 'gameController.addGame: ERROR: Game not created',
         },
       });
     }
@@ -67,7 +77,12 @@ LEFT JOIN users_games ON games.game_id = users_games.game_id
 GROUP BY games.game_id, games.name, games.type,games.datetime ,games."location" ,games.maxplayers`;
 
       db.query(queryString).then((results) => {
-        const gamesObj = { baseball: [], football: [], basketball: [], soccer: [] };
+        const gamesObj = {
+          baseball: [],
+          football: [],
+          basketball: [],
+          soccer: [],
+        };
         results.rows.forEach((el) => {
           if (gamesObj[el.type]) {
             gamesObj[el.type].push(el);
@@ -112,7 +127,7 @@ GROUP BY games.game_id, games.name, games.type,games.datetime ,games."location" 
   leaveGame(req, res, next) {
     try {
       const { userId } = req.cookies;
-      const { gameId } = req.body;
+      const { gameId } = req.params;
 
       const queryString = `DELETE FROM users_games WHERE user_id = '${userId}' AND game_id = '${gameId}'`;
       db.query(queryString).then((data) => {
@@ -128,6 +143,42 @@ GROUP BY games.game_id, games.name, games.type,games.datetime ,games."location" 
         log: `gameController.findUsersInGame: ERROR ${err}`,
         message: {
           err: 'gameController.findUsersInGame: ERROR: Game not found',
+        },
+      });
+    }
+  },
+
+  deleteGame(req, res, next) {
+    try {
+      const { gameId } = req.body;
+      if (gameId == undefined) {
+        return next({
+          log: 'gameController: ERROR: Missing required field',
+          status: '400',
+          message: {
+            err: 'Error occured in gameController.deleteGame Missing required field',
+          },
+        });
+      }
+
+      const queryString = `DELETE FROM users_games WHERE game_id = '${gameId}'`;
+      const queryString2 = `DELETE FROM games WHERE game_id = '${gameId}'`;
+
+      db.query(queryString).then(
+        db.query(queryString2).then((data) => {
+          if (data.rowCount > 0) {
+            res.locals.deleted = true;
+          } else {
+            res.locals.deleted = false;
+          }
+          return next();
+        })
+      );
+    } catch (err) {
+      return next({
+        log: `gameController.deleteGame: ERROR ${err}`,
+        message: {
+          err: 'gameController.delteGame: ERROR: Could not delete game',
         },
       });
     }

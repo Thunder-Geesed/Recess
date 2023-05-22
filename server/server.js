@@ -5,9 +5,6 @@ const PORT = 3000;
 
 const userController = require('./controllers/userController.js');
 const cookieController = require('./controllers/cookieController.js');
-// const gameController = require('./controllers/gameController.js');
-
-const gameRouter = require('./routes/gameRouter.js');
 const userRouter = require('./routes/userRouter.js');
 const homeRouter = require('./routes/homeRouter.js');
 
@@ -20,14 +17,22 @@ app.use(cookieParser());
 app.use(express.static(path.resolve(__dirname, '../dist')));
 
 app.use('/home', cookieController.checkCookie, homeRouter);
+// app.use('/home', homeRouter);
 
 app.use('/createuser', userRouter);
 
-app.use('/game', gameRouter);
-
-app.post('/login', userController.verifyUser, cookieController.createCookie, (req, res) => {
-  return res.json(res.locals.username);
+app.get('/logout', cookieController.removeCookie, (req, res) => {
+  return res.json(res.locals.removed);
 });
+
+app.post(
+  '/login',
+  userController.verifyUser,
+  cookieController.createCookie,
+  (req, res) => {
+    return res.json(res.locals.username);
+  }
+);
 
 app.use((req, res) => res.status(404).send('Page not found.'));
 
